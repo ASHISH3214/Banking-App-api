@@ -96,11 +96,13 @@ public class AccountServiceImpl implements AccountService{
 
 
 	@Override
-	public void deletAccount(Long id) {
+	public String deletAccount(Long id) {
 		Account account = accountRepository
 				.findById(id)
 				.orElseThrow(() -> new NoAccountFoundException("Account does not exist with id "+id));
 		accountRepository.deleteById(id);
+		
+		return "Success";
 		
 	}
 

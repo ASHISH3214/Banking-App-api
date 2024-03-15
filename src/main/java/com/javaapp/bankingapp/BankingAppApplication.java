@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import com.javaapp.bankingapp.repository.AccountRepository;
 import com.javaapp.bankingapp.repository.UserRepository;
@@ -27,4 +28,10 @@ public class BankingAppApplication {
     ModelMapper modelMapper() {
         return new ModelMapper();
     }
+//    
+//    @Bean(name="entityManagerFactory")
+//    public LocalSessionFactoryBean sessionFactory() {
+//    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//    return sessionFactory;
+//    }
 }

@@ -6,7 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class DataSourceConfig {
 
 	 @Bean
@@ -26,4 +26,5 @@ public class DataSourceConfig {
 	          .build();	
 
 	    }
+	
 }

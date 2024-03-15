@@ -16,7 +16,7 @@ public interface AccountService {
 	
 	List<AccountDto> getAllAccounts();
 	
-	void deletAccount(Long id); 
+	String deletAccount(Long id); 
 	
 	List<AccountDto> getAccountsByName(String name);
 	

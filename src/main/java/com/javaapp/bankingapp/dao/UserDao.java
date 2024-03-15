@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserDao {
 	private Long id;
 	private String name;
-	private String age;
+	private Integer age;
 	private String email;
 	private List<Role> roles; 
 

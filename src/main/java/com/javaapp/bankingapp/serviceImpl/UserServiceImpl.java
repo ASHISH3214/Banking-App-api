@@ -42,7 +42,8 @@ public class UserServiceImpl implements UserService{
 			//user.setAccountType(user.getAge()<18 ? "Student" : "General");
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			User savedUser = userRepository.save(user);
-			return mapper.map(savedUser, UserDao.class);
+			UserDao userDao = mapper.map(savedUser, UserDao.class);
+			return userDao;
 		}
 		else {
 			throw new UserAlreadyExistException("User already exist with email "+ userEmail);
@@ -55,7 +56,9 @@ public class UserServiceImpl implements UserService{
 				.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("Account does not exist with id "+id));
 		
-		return mapper.map(user, UserDao.class);
+		UserDao dao =  mapper.map(user, UserDao.class);
+		
+		return dao;
 	}
 
 	@Override
@@ -69,7 +72,6 @@ public class UserServiceImpl implements UserService{
 		  .stream()
 		  .map(u -> mapper.map(u, UserDao.class))
 		  .collect(Collectors.toList());
-		//System.out.println(dtos);
 	}
 
 	@Override
@@ -89,11 +91,12 @@ public class UserServiceImpl implements UserService{
 		if(users.isEmpty())
 			throw new UserNotFoundException("users not found");
 		
-		return users
+		List<UserDao> daos = users
 		  .stream()
 		  .map(u -> mapper.map(u, UserDao.class))
 		  .collect(Collectors.toList());
-		//System.out.println(dtos);
+		
+		return daos;
 		
 	}
 
