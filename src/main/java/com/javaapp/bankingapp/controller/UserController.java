@@ -24,10 +24,14 @@ import com.javaapp.bankingapp.exceptions.UserNotFoundException;
 import com.javaapp.bankingapp.service.UserService;
 import com.javaapp.bankingapp.serviceImpl.JwtService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
+//enable only specific controller authorization in swagger
+//@SecurityRequirement(
+//		name = "Bearer Authentication")
 public class UserController {
 
 	@Autowired
@@ -76,6 +80,7 @@ public class UserController {
 		return new ResponseEntity<UserDao>(userService.getUserByEmail(email), HttpStatus.OK);
 	}
 	
+	@SecurityRequirement(name = "Bearer Authentication")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/all")
 	public ResponseEntity<List<UserDao>> getAllUsers(){
