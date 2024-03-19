@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.javaapp.bankingapp.dao.UserDao;
@@ -23,32 +24,54 @@ import com.javaapp.bankingapp.entity.User;
 import com.javaapp.bankingapp.repository.UserRepository;
 import com.javaapp.bankingapp.serviceImpl.UserServiceImpl;
 
+@SpringBootTest
 class UserServiceTest {
 	
-	@Mock
-	private UserRepository userRepository;
-	private UserServiceImpl userService;
-	@MockBean
-	private ModelMapper mapper;
-	AutoCloseable autoCloseable;
-	List<User> users;
-	User user;
-	
-	@BeforeEach
-	void setUp() throws Exception {
-		autoCloseable = MockitoAnnotations.openMocks(this);
-		userService = new UserServiceImpl(userRepository);
-		users = Instancio.ofList(User.class).size(2).create();
-		user = Instancio.of(User.class).create();
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-		autoCloseable.close();
-	}
-
 	@Test
-	void testCreateUser() {
+	void contextLoads() {
+	}
+	
+	@MockBean
+	private UserRepository userRepository;
+	
+	@Autowired
+	private UserServiceImpl userService;
+	
+	List<User> users = Instancio.ofList(User.class).size(2).create();
+	User user = Instancio.of(User.class).create();
+	
+	@Test
+	public void getAllUsersTest() {
+		when(userRepository.findAll()).thenReturn(users);
+		
+		assertThat(2).isEqualTo(userService.getAllUsersDetails().size());
+	}
+	
+	@Test
+	public void getUsersByEmailTest() {
+		Optional<User> optionalUser = Optional.ofNullable(user);
+		when(userRepository.findByEmail(user.getEmail())).thenReturn(optionalUser);
+		
+		assertThat(optionalUser.get().getEmail()).isEqualTo(userService.getUserByEmail(user.getEmail()).getEmail());
+	}
+	
+	@Test
+	public void getUsersByNameTest() {
+		when(userRepository.findByName(users.get(0).getName())).thenReturn(users);
+		
+		assertThat(2).isEqualTo(userService.getUserByName(users.get(0).getName()).size());
+	}
+	
+	@Test
+	public void getUsersByIdTest() {
+		Optional<User> optionalUser = Optional.ofNullable(user);
+		when(userRepository.findById(user.getId())).thenReturn(optionalUser);
+		
+		assertThat(optionalUser.get().getId()).isEqualTo(userService.getUserById(user.getId()).getId());
+	}
+	
+	@Test
+	public void createUserTest() {
 		UserDto dto = new UserDto(user.getId(), user.getName(), user.getAge(), user.getEmail(), user.getPassword(), user.getRoles());
 		
 		when(userRepository.save(any())).thenReturn(user);
@@ -56,42 +79,6 @@ class UserServiceTest {
 		
 		assertThat(dao).isNotNull();
 		assertThat(dao.getEmail()).isEqualTo(user.getEmail());
-	}
-
-	@Test
-	void testGetUserById() {
-		UserDao dao = new UserDao(user.getId(), user.getName(), user.getAge(), user.getEmail(),user.getRoles());
-		Optional<User> optionalUser = Optional.ofNullable(user);
-		when(userRepository.findById(any())).thenReturn(optionalUser);
-		when(mapper.map(optionalUser, UserDao.class)).thenReturn(dao);
-		
-		assertThat(optionalUser.get().getId()).isEqualTo(userService.getUserById(user.getId()).getId());
-	
-	}
-
-	@Test
-	void testGetUserByName() {
-		when(userRepository.findByName(users.get(0).getName())).thenReturn(users);
-		
-		assertThat(2).isEqualTo(userService.getUserByName(users.get(0).getName()).size());
-
-	}
-
-	@Test
-	void testGetUserByEmail() {
-		Optional<User> optionalUser = Optional.ofNullable(user);
-		when(userRepository.findByEmail(user.getEmail())).thenReturn(optionalUser);
-		
-		assertThat(optionalUser.get().getEmail()).isEqualTo(userService.getUserByEmail(user.getEmail()).getEmail());
-
-	}
-
-	@Test
-	void testGetAllUsersDetails() {
-		when(userRepository.findAll()).thenReturn(users);
-		
-		assertThat(2).isEqualTo(userService.getAllUsersDetails().size());
-
 	}
 
 }

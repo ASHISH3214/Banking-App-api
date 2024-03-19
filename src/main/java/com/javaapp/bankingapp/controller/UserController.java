@@ -80,7 +80,6 @@ public class UserController {
 		return new ResponseEntity<UserDao>(userService.getUserByEmail(email), HttpStatus.OK);
 	}
 	
-	@SecurityRequirement(name = "Bearer Authentication")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/all")
 	public ResponseEntity<List<UserDao>> getAllUsers(){

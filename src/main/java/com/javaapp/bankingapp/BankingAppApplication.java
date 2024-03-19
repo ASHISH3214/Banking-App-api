@@ -28,10 +28,4 @@ public class BankingAppApplication {
     ModelMapper modelMapper() {
         return new ModelMapper();
     }
-//    
-//    @Bean(name="entityManagerFactory")
-//    public LocalSessionFactoryBean sessionFactory() {
-//    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//    return sessionFactory;
-//    }
 }
