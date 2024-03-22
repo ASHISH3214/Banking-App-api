@@ -24,15 +24,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				),
 				version = "v1"
 		),
-//		servers = {
-//				@Server(
-//						description = "Dev",
-//						url = "http://localhost:8080"
-//				),
-//				@Server(
-//						description = "Test",
-//						url = "http://localhost:8080"
-//				)
+		servers = {
+				@Server(
+						description = "Dev",
+						url = "https://banking-app-api-production.up.railway.app/"
+				)
+		},
 		security = @SecurityRequirement(
 				name = "Bearer Authentication")  //enable all controllers authorization
 )		
