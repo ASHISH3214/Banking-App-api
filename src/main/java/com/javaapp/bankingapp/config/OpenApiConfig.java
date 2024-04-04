@@ -34,12 +34,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				version = "v1"
 		),
 		externalDocs = @ExternalDocumentation(url = "https://github.com/ASHISH3214/Banking-App-api"),
-//		servers = {
-//				@Server(
-//						description = "Dev",
-//						url = "https://banking-app-api-production.up.railway.app/"
-//				)
-//		},
+		servers = {
+				@Server(
+						description = "Dev",
+						url = "https://banking-app-api-production.up.railway.app/"
+				)
+		},
 		security = @SecurityRequirement(
 				name = "Bearer Authentication")  //enable all controllers authorization
 )		
