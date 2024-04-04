@@ -1,5 +1,10 @@
 package com.javaapp.bankingapp.config;
 
+import java.lang.annotation.Documented;
+
+import org.aspectj.lang.annotation.control.CodeGenerationHint;
+
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -11,12 +16,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
 		info = @Info(
-				title = "Bank API",
-				description = "Bank Api curd operations and security implimentations",
-				summary = "this is demo project for learning purpose.",
+				title = "Banking-App APIs",
+				description = "## Banking-App Apis curd operations and security implimentation \n"
+						+ "### Login credentials - \n"
+						+ "### username - ashish@gmail.com \n"
+						+ "### password - 1234 \n"
+						+ "#### Go to user-controller and authenticate user \n",
+				summary = "This is Test project for learning purpose.",
 				termsOfService = "TNC",
 				contact = @Contact(
-						name = "Ashish",
+						name = "Ashish Rathor",
 						email = "rathora34@gmail.com"
 				),
 				license = @License(
@@ -24,12 +33,13 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				),
 				version = "v1"
 		),
-		servers = {
-				@Server(
-						description = "Dev",
-						url = "https://banking-app-api-production.up.railway.app/"
-				)
-		},
+		externalDocs = @ExternalDocumentation(url = "https://github.com/ASHISH3214/Banking-App-api"),
+//		servers = {
+//				@Server(
+//						description = "Dev",
+//						url = "https://banking-app-api-production.up.railway.app/"
+//				)
+//		},
 		security = @SecurityRequirement(
 				name = "Bearer Authentication")  //enable all controllers authorization
 )		
@@ -40,5 +50,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
   scheme = "bearer"
 )
 public class OpenApiConfig {
-
+	
+	
 }

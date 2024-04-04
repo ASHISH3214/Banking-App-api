@@ -35,7 +35,7 @@ class UserServiceTest {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 	
 	List<User> users = Instancio.ofList(User.class).size(2).create();
 	User user = Instancio.of(User.class).create();
