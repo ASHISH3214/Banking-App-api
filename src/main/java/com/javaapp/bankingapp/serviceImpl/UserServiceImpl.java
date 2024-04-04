@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.javaapp.bankingapp.dao.UserDao;
 import com.javaapp.bankingapp.dto.UserDto;
 import com.javaapp.bankingapp.entity.User;
 import com.javaapp.bankingapp.exceptions.UserAlreadyExistException;
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDao createUser(UserDto userDto) {
+	public UserDto createUser(UserDto userDto) {
 		User user = mapper.map(userDto, User.class);
 		String userEmail = user.getEmail();
 		Optional<User> check = userRepository.findByEmail(userEmail);
@@ -42,8 +41,8 @@ public class UserServiceImpl implements UserService{
 			//user.setAccountType(user.getAge()<18 ? "Student" : "General");
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			User savedUser = userRepository.save(user);
-			UserDao userDao = mapper.map(savedUser, UserDao.class);
-			return userDao;
+			UserDto UserDto = mapper.map(savedUser, UserDto.class);
+			return UserDto;
 		}
 		else {
 			throw new UserAlreadyExistException("User already exist with email "+ userEmail);
@@ -51,18 +50,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDao getUserById(Long id) {
+	public UserDto getUserById(Long id) {
 		User user = userRepository
 				.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("Account does not exist with id "+id));
 		
-		UserDao dao =  mapper.map(user, UserDao.class);
+		UserDto dao =  mapper.map(user, UserDto.class);
 		
 		return dao;
 	}
 
 	@Override
-	public List<UserDao> getUserByName(String name) {
+	public List<UserDto> getUserByName(String name) {
 		List<User> users = userRepository
 				.findByName(name);
 		if(users.isEmpty())
@@ -70,30 +69,30 @@ public class UserServiceImpl implements UserService{
 		
 		return users
 		  .stream()
-		  .map(u -> mapper.map(u, UserDao.class))
+		  .map(u -> mapper.map(u, UserDto.class))
 		  .collect(Collectors.toList());
 	}
 
 	@Override
-	public UserDao getUserByEmail(String email) {
+	public UserDto getUserByEmail(String email) {
 		Optional<User> user = userRepository
 				.findByEmail(email);
 		if(user==null)
 			throw new UserNotFoundException("no user found with email "+email);
 		
-		return mapper.map(user,UserDao.class);
+		return mapper.map(user,UserDto.class);
 	}
 
 	@Override
-	public List<UserDao> getAllUsersDetails() {
+	public List<UserDto> getAllUsersDetails() {
 		List<User> users = userRepository
 				.findAll();
 		if(users.isEmpty())
 			throw new UserNotFoundException("users not found");
 		
-		List<UserDao> daos = users
+		List<UserDto> daos = users
 		  .stream()
-		  .map(u -> mapper.map(u, UserDao.class))
+		  .map(u -> mapper.map(u, UserDto.class))
 		  .collect(Collectors.toList());
 		
 		return daos;

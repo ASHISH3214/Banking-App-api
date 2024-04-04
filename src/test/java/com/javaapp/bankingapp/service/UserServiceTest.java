@@ -8,21 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.instancio.Instancio;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.javaapp.bankingapp.dao.UserDao;
 import com.javaapp.bankingapp.dto.UserDto;
 import com.javaapp.bankingapp.entity.User;
 import com.javaapp.bankingapp.repository.UserRepository;
-import com.javaapp.bankingapp.serviceImpl.UserServiceImpl;
 
 @SpringBootTest
 class UserServiceTest {
@@ -75,10 +68,10 @@ class UserServiceTest {
 		UserDto dto = new UserDto(user.getId(), user.getName(), user.getAge(), user.getEmail(), user.getPassword(), user.getRoles());
 		
 		when(userRepository.save(any())).thenReturn(user);
-		UserDao dao = userService.createUser(dto);
+		UserDto user2 = userService.createUser(dto);
 		
-		assertThat(dao).isNotNull();
-		assertThat(dao.getEmail()).isEqualTo(user.getEmail());
+		assertThat(user2).isNotNull();
+		assertThat(user2.getEmail()).isEqualTo(user.getEmail());
 	}
 
 }

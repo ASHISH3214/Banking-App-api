@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.javaapp.bankingapp.dao.UserDao;
 import com.javaapp.bankingapp.dto.AuthRequest;
 import com.javaapp.bankingapp.dto.UserDto;
 import com.javaapp.bankingapp.exceptions.UserNotFoundException;
 import com.javaapp.bankingapp.service.UserService;
 import com.javaapp.bankingapp.serviceImpl.JwtService;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
@@ -55,35 +53,35 @@ public class UserController {
 	
 	//create new user REST API
 	@PostMapping("/new")
-	public ResponseEntity<UserDao> createUser(@Valid @RequestBody UserDto userDto){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
 	}
 	
 	//Get user by Id
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDao> getUserById(@PathVariable long id){
-		UserDao userDao = userService.getUserById(id);
-		return new ResponseEntity<UserDao>(userDao, HttpStatus.OK);
+	public ResponseEntity<UserDto> getUserById(@PathVariable long id){
+		UserDto UserDto = userService.getUserById(id);
+		return new ResponseEntity<UserDto>(UserDto, HttpStatus.OK);
 	}
 	
 	//get users by name
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/name")
-	public ResponseEntity<List<UserDao>> ListOfUsersByName(@RequestParam String name){
-		return new ResponseEntity<List<UserDao>>(userService.getUserByName(name), HttpStatus.OK);
+	public ResponseEntity<List<UserDto>> ListOfUsersByName(@RequestParam String name){
+		return new ResponseEntity<List<UserDto>>(userService.getUserByName(name), HttpStatus.OK);
 	}
 	
 	//get user by email
 	@GetMapping("/email")
-	public ResponseEntity<UserDao> getUserByEmail(@RequestParam String email){
-		return new ResponseEntity<UserDao>(userService.getUserByEmail(email), HttpStatus.OK);
+	public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email){
+		return new ResponseEntity<UserDto>(userService.getUserByEmail(email), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/all")
-	public ResponseEntity<List<UserDao>> getAllUsers(){
-		return new ResponseEntity<List<UserDao>>(userService.getAllUsersDetails(), HttpStatus.OK);
+	public ResponseEntity<List<UserDto>> getAllUsers(){
+		return new ResponseEntity<List<UserDto>>(userService.getAllUsersDetails(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/authenticate")
